@@ -1,18 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div v-if="totalPokemons" class="container">
+    <PaginationItems :totalPokemons="totalPokemons" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import { api } from "@/services.js";
+import PaginationItems from "@/components/PaginationItems.vue";
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
-    HelloWorld
-  }
-}
+    PaginationItems,
+  },
+  data() {
+    return {
+      totalPokemons: null,
+    };
+  },
+
+  methods: {
+    async getTotalPokemons() {
+      const response = await api.get("/pokemon");
+      this.totalPokemons = response.data;
+    },
+  },
+  created() {
+    this.getTotalPokemons();
+  },
+};
 </script>

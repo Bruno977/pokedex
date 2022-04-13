@@ -1,0 +1,267 @@
+:root {
+    --body-font-family: "Poppins", sans-serif;
+    --title-font-family: "Poppins", sans-serif;
+    --button-font-family: "Poppins", sans-serif;
+
+    --container-width: 1300px;
+
+    --body-background-color: #eff3f6;
+
+    --text-color: #2f3133;
+    --light-text-color: #7a7d80;
+
+    --all-transition: all 0.2s ease-in-out 0s;
+
+    --box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+body {
+    background-color: var(--body-background-color);
+}
+ol,
+ul {
+    list-style: none;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+* {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+img {
+    max-width: 100%;
+}
+.container {
+    max-width: var(--container-width);
+    padding: 0 1.25rem;
+    margin: 0 auto;
+}
+
+/* Columns Structure */
+
+.columns,
+.grid {
+    display: grid;
+}
+
+.columns {
+    grid-template-columns: repeat(12, 1fr);
+}
+
+/* Gapping */
+
+.gap1 {
+    grid-gap: 0.625rem;
+}
+
+.gap2 {
+    grid-gap: 1.25rem;
+}
+
+.gap3 {
+    grid-gap: 1.875rem;
+}
+
+.gap4 {
+    grid-gap: 2.5rem;
+}
+
+.gap5 {
+    grid-gap: 3.125rem;
+}
+
+.gap6 {
+    grid-gap: 3.75rem;
+}
+
+/* Gapping */
+
+/* Columns Span */
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.span-3 {
+    grid-column: span 3;
+}
+
+.span-4 {
+    grid-column: span 4;
+}
+
+.span-5 {
+    grid-column: span 5;
+}
+
+.span-6 {
+    grid-column: span 6;
+}
+
+.span-7 {
+    grid-column: span 7;
+}
+
+.span-8 {
+    grid-column: span 8;
+}
+
+.span-9 {
+    grid-column: span 9;
+}
+
+.span-10 {
+    grid-column: span 10;
+}
+
+.span-11 {
+    grid-column: span 11;
+}
+
+.span-12 {
+    grid-column: span 12;
+}
+
+/* Columns Span */
+
+@media screen and (max-width: 1020px) {
+    /* Columns */
+
+    .columns {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Columns */
+
+    /* Columns Span */
+
+    .span-12,
+    .span-11,
+    .span-10,
+    .span-9,
+    .span-8,
+    .span-7,
+    .span-6 {
+        grid-column: span 2;
+    }
+
+    .span-5,
+    .span-4,
+    .span-3,
+    .span-2 {
+        grid-column: span 1;
+    }
+
+    .m-span-2 {
+        grid-column: span 2;
+    }
+
+    /* Columns Span */
+}
+
+@media screen and (max-width: 768px) {
+    /* Columns */
+
+    .columns {
+        grid-template-columns: 1fr;
+    }
+
+    /* Columns */
+
+    /* Columns Span */
+
+    .span-12,
+    .span-11,
+    .span-10,
+    .span-9,
+    .span-8,
+    .span-7,
+    .span-6,
+    .m-span-2 {
+        grid-column: span 1;
+    }
+
+    /* Columns Span */
+}
+
+/* Columns */
+/*Flex*/
+.flex {
+    display: flex;
+}
+.jc-c {
+    justify-content: center;
+}
+.ai-gc {
+    align-items: center;
+}
+/*Flex*/
+.grass {
+    background-color: #d6ebdc;
+}
+.fire {
+    background-color: #ffebca;
+}
+.water {
+    background-color: #dfecf5;
+}
+.normal {
+    background-color: rgba(141, 141, 141, 0.2);
+}
+.fighting {
+    background-color: rgba(196, 77, 97, 0.2);
+}
+.flying {
+    background-color: rgba(158, 180, 227, 0.2);
+}
+.poison {
+    background-color: rgba(172, 106, 202, 0.2);
+}
+.ground {
+    background-color: rgba(203, 119, 74, 0.2);
+}
+.rock {
+    background-color: rgba(134, 203, 190, 0.2);
+}
+.bug {
+    background-color: rgba(131, 158, 56, 0.2);
+}
+.ghost {
+    background-color: rgba(97, 110, 183, 0.2);
+}
+.steel {
+    background-color: rgba(101, 148, 161, 0.2);
+}
+.electric {
+    background-color: rgba(207, 190, 93, 0.2);
+}
+.psychic {
+    background-color: rgba(235, 140, 133, 0.2);
+}
+.ice {
+    background-color: rgba(124, 197, 182, 0.2);
+}
+.dragon {
+    background-color: rgba(70, 105, 153, 0.2);
+}
+.dark {
+    background-color: rgba(61, 60, 63, 0.2);
+}
+.fairy {
+    background-color: rgba(221, 138, 220, 0.2);
+}
