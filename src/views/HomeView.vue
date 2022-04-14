@@ -66,10 +66,14 @@ export default {
       const response = await api.get("/pokemon");
       this.totalPokemons = response.data;
     },
+    async searchPokemon() {
+      const response = await api.get(`/pokemon/${this.pokemonSearch}`);
+      this.pokemonsList = response.data;
+    },
   },
   watch: {
-    pokemonsList() {
-      console.log(this.pokemonsList);
+    pokemonSearch() {
+      this.searchPokemon();
     },
   },
   created() {
