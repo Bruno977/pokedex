@@ -14,28 +14,37 @@
 import { api } from "@/services.js";
 export default {
   name: "ListPokemons",
-  props: ["pokemonName", "pokemonUrl"],
+  props: ["pokemonUrl", "pokemonSearch"],
   data() {
     return {
-      url: "",
       pokemon: null,
     };
   },
   methods: {
     async getTypePokemons() {
-      const response = await api.get(`/pokemon/${this.getIndexUrl}`);
-      this.pokemon = {
-        name: response.data.name,
-        id: response.data.id,
-        type: response.data.types[0].type.name,
-        img: response.data.sprites.other.dream_world.front_default,
-      };
+      if (this.getIndexUrl) {
+        const response = await api.get(`/pokemon/${this.getIndexUrl}`);
+        this.pokemon = {
+          name: response.data.name,
+          id: response.data.id,
+          type: response.data.types[0].type.name,
+          img: response.data.sprites.other.dream_world.front_default,
+        };
+      }
     },
   },
+  // watch: {
+  //   pokemonSearch() {
+  //     console.log(this.pokemonSearch);
+  //   },
+  // },
   computed: {
     getIndexUrl() {
-      const index = this.pokemonUrl.split("/");
-      return index[index.length - 2];
+      let index;
+      if (this.pokemonUrl) {
+        index = this.pokemonUrl.split("/");
+      }
+      return this.pokemonUrl ? index[index.length - 2] : null;
     },
   },
   created() {
