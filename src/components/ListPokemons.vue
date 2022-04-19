@@ -1,58 +1,119 @@
 <template>
-  <div v-if="pokemon" class="card-pokemon">
-    <img
-      :src="`${pokemon.img}`"
-      :alt="`pokemon-${getIndexUrl}`"
-      class="pokemon-img"
-    />
-    <div class="pokemon-id">{{ pokemon.id }}</div>
-    <div>{{ pokemon.name }}</div>
-    <div>{{ pokemon.type }}</div>
+  <div>
+    <div v-if="pokemonsType">
+      <div class="card-pokemon">
+        <img
+          :src="`${
+            pokemonsType.sprites.other.dream_world.front_default
+              ? pokemonsType.sprites.other.dream_world.front_default
+              : ''
+          }`"
+          :alt="`pokemon`"
+          class="pokemon-img"
+        />
+        <div class="pokemon-id">{{ pokemonsType.id }}</div>
+        <div>{{ pokemonsType.name }}</div>
+        <div>{{ pokemonsType.types[0].type.name }}</div>
+      </div>
+    </div>
+    <div v-if="searchPokemon">
+      <div class="card-pokemon search">
+        <img
+          :src="`${
+            searchPokemon.sprites.other.dream_world.front_default
+              ? searchPokemon.sprites.other.dream_world.front_default
+              : ''
+          }`"
+          :alt="`pokemon`"
+          class="pokemon-img"
+        />
+        <div class="pokemon-id">{{ searchPokemon.id }}</div>
+        <div>{{ searchPokemon.name }}</div>
+        <div>{{ searchPokemon.types[0].type.name }}</div>
+      </div>
+    </div>
+    <div v-if="allPokemons">
+      <div class="card-pokemon">
+        <img
+          :src="`${
+            allPokemons.sprites.other.dream_world.front_default
+              ? allPokemons.sprites.other.dream_world.front_default
+              : ''
+          }`"
+          :alt="`pokemon`"
+          class="pokemon-img"
+        />
+        <div class="pokemon-id">{{ allPokemons.id }}</div>
+        <div>{{ allPokemons.name }}</div>
+        <div>{{ allPokemons.types[0].type.name }}</div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { api } from "@/services.js";
 export default {
   name: "ListPokemons",
-  props: ["pokemonUrl", "pokemonSearch"],
+  props: {
+    listTypePokemons: {
+      type: Object,
+    },
+    resultPokemonSearch: {
+      type: Object,
+    },
+    listPokemons: {
+      type: Object,
+    },
+  },
   data() {
     return {
-      pokemon: null,
+      pokemonsType: null,
+      allPokemons: null,
+      searchPokemon: null,
     };
   },
   methods: {
     async getTypePokemons() {
-      if (this.getIndexUrl) {
-        const response = await api.get(`/pokemon/${this.getIndexUrl}`);
-        this.pokemon = {
-          name: response.data.name,
-          id: response.data.id,
-          type: response.data.types[0].type.name,
-          img: response.data.sprites.other.dream_world.front_default,
-        };
+      this.allPokemons = null;
+      this.searchPokemon = null;
+      if (this.listTypePokemons) {
+        const response = await api.get(`${this.listTypePokemons.pokemon.url}`);
+        this.pokemonsType = response.data;
       }
     },
-  },
-  // watch: {
-  //   pokemonSearch() {
-  //     console.log(this.pokemonSearch);
-  //   },
-  // },
-  computed: {
-    getIndexUrl() {
-      let index;
-      if (this.pokemonUrl) {
-        index = this.pokemonUrl.split("/");
+    async getAllPokemons() {
+      this.pokemonsType = null;
+      this.searchPokemon = null;
+      if (this.listPokemons) {
+        const response = await api.get(`${this.listPokemons.url}`);
+        this.allPokemons = response.data;
       }
-      return this.pokemonUrl ? index[index.length - 2] : null;
+    },
+    getPokemonSearch() {
+      this.pokemonsType = null;
+      this.allPokemons = null;
+      this.searchPokemon = this.resultPokemonSearch;
+    },
+  },
+  watch: {
+    listPokemons() {
+      this.getAllPokemons();
+    },
+    listTypePokemons() {
+      this.getTypePokemons();
+    },
+    resultPokemonSearch() {
+      this.getPokemonSearch();
     },
   },
   created() {
     this.getTypePokemons();
+    this.getAllPokemons();
+    this.getPokemonSearch();
   },
 };
 </script>
-<style scoped>
+<style>
 .card-pokemon {
   background-color: #fff;
   padding: 20px;

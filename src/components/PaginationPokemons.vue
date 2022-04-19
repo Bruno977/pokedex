@@ -11,38 +11,30 @@
   </ul>
 </template>
 <script>
-import { api } from "@/services.js";
 export default {
   name: "PaginationPokemons",
-  props: ["totalPokemons", "pokemonsList"],
+  props: [
+    "totalPokemons",
+    "offsetAndLimit",
+    "showPagination",
+    "showAllPokemons",
+  ],
   data() {
     return {
-      totalItemsPerPage: 9,
-      pokemons: this.pokemonsList,
-      pokemonsPerPage: 9,
+      limit: 9,
+      paginationSize: this.offsetAndLimit,
+      offset: 9,
       currentPageNumber: 1,
+      // pagination: true,
     };
   },
   methods: {
-    // Pega Pokemons Por Páginação
-    async getTotalPokemons() {
-      const response = await api.get(
-        `pokemon?offset=${
-          this.pokemonsPerPage - this.totalItemsPerPage
-        }&limit=${this.totalItemsPerPage}`
-      );
-      this.pokemons = response.data.results;
-
-      this.$emit("update:pokemonsList", this.pokemons);
-    },
     //Calculo offset paginação
     numberPagination({ target }) {
-      this.hideFilter = false;
-      this.pokemonsPerPage =
-        this.totalItemsPerPage * Number(target.textContent);
+      this.offset = this.limit * Number(target.textContent);
       this.currentPageNumber = Number(target.textContent);
       this.toggleClassPagination(target);
-      this.getTotalPokemons();
+      this.offsetLimit();
     },
     //Adiciona e remove classe na paginação ativa
     toggleClassPagination(target) {
@@ -53,12 +45,18 @@ export default {
         target.classList.add("active");
       }
     },
+    offsetLimit() {
+      this.paginationSize = {
+        offset: this.offset,
+        limit: this.limit,
+      };
+      this.$emit("update:offsetAndLimit", this.paginationSize);
+    },
   },
   computed: {
     //Calculo Total de páginas
     totalPagination() {
-      const totalPages =
-        Number(this.totalPokemons.count) / this.totalItemsPerPage;
+      const totalPages = Number(this.totalPokemons.count) / this.limit;
       const roundNumber = Math.ceil(totalPages);
 
       return roundNumber;
@@ -81,7 +79,7 @@ export default {
     },
   },
   created() {
-    this.getTotalPokemons();
+    this.offsetLimit();
   },
   mounted() {
     this.toggleClassPagination();
