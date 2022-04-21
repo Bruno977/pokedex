@@ -4,9 +4,11 @@
       <img :src="`${pokemons.img}`" :alt="`pokemon`" class="pokemon-img" />
       <div :class="`background-pokemon ${pokemons.type}`"></div>
     </div>
-    <div class="pokemon-id">{{ pokemons.id }}</div>
-    <div>{{ pokemons.name }}</div>
-    <div>{{ pokemons.type }}</div>
+    <div class="pokemon-id">#{{ pokemons.id }}</div>
+    <div class="flex ai-gc jc-sb">
+      <div class="pokemon-name">{{ pokemons.name }}</div>
+      <img :src="require(`@/assets/img/${pokemons.type}.svg`)" alt="" />
+    </div>
   </div>
 </template>
 <script>
@@ -78,5 +80,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.pokemon-id {
+  color: var(--light-text-color);
+  font-size: 0.8em;
+}
+.pokemon-name {
+  font-weight: bold;
+  color: var(--text-color);
 }
 </style>

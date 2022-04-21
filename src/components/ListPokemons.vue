@@ -102,7 +102,7 @@ export default {
     },
     listTypePokemons() {
       this.getTypePokemons();
-      console.log("list");
+      // console.log("list");
     },
     resultPokemonSearch() {
       this.getPokemonSearch();

@@ -16,6 +16,25 @@
     --all-transition: all 0.2s ease-in-out 0s;
 
     --box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
+    --grass-color: #73b861;
+    --poison-color: #ac6aca;
+    --water-color: #4f77be;
+    --fire-color: #e96303;
+    --psychic-color: #eb8b85;
+    --flying-color: #758cbd;
+    --ice-color: #71baac;
+    --ground-color: #ce8056;
+    --rock-color: #84beb3;
+    --eletric-color: #d4bc34;
+    --bug-color: #9bba48;
+    --dark-color: #595761;
+    --dragon-color: #2c6ac1;
+    --fairy-color: #e296e1;
+    --fighting-color: #c44d61;
+    --ghost-color: #616eb7;
+    --steel-color: #6594a1;
+    --normal-color: #909090;
 }
 
 * {

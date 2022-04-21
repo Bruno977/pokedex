@@ -2,9 +2,12 @@
   <div v-if="totalPokemons" class="container md-pd">
     <div class="grid columns gap2">
       <div class="span-4">
-        <SidebarTypes :type.sync="type"
-          ><li @click="showAllPokemonsSide">All</li></SidebarTypes
-        >
+        <SidebarTypes :type.sync="type">
+          <li @click="showAllPokemonsSide" class="flex ai-gc">
+            <img src="../assets/img/icon-all.svg" alt="All Pokemons" />
+            <p class="ml-1">All</p>
+          </li>
+        </SidebarTypes>
       </div>
       <div class="span-8 grid columns gap2 grid-pokemons">
         <div class="span-12 grid columns gap2">
@@ -68,6 +71,7 @@ export default {
 
       showAllPokemons: false,
       showPagination: true,
+      // showTypeSidebar: "",
     };
   },
 
@@ -102,6 +106,9 @@ export default {
 
       if (this.type !== "") {
         const response = await api.get(`/type/${this.type.trim()}`);
+        // if (!response.data.pokemon.length) {
+        //   this.showTypeSidebar = this.type;
+        // }
         this.listTypePokemons = response.data.pokemon;
       }
       this.type = "";
@@ -131,7 +138,7 @@ export default {
       this.getPokemonsPerPagination();
     },
     showPagination() {
-      console.log(this.showPagination);
+      // console.log(this.showPagination);
     },
   },
   created() {
