@@ -48,6 +48,11 @@ export default {
       allPokemons: false,
     };
   },
+  // methods: {
+  //   getStylesPokemon() {
+  //     console.log(pokemonsStyle);
+  //   },
+  // },
   watch: {
     resultPokemonSearch() {
       this.allPokemons = false;
@@ -69,27 +74,10 @@ export default {
         this.allPokemons = true;
         this.searchPokemon = false;
         this.typePokemons = false;
+        // console.log(this.showAllPokemons);
       }
     },
   },
-  created() {},
-  mounted() {},
 };
 </script>
-<style>
-.card-pokemon {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: var(--all-transition);
-}
-.card-pokemon:hover {
-  box-shadow: var(--box-shadow);
-}
-.pokemon-img {
-  height: 150px;
-  display: block;
-  margin: 0 auto;
-}
-</style>
+<style></style>

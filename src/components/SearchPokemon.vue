@@ -39,6 +39,12 @@ export default {
   methods: {
     searchPokemon() {
       this.$emit("update:pokemonSearch", this.pokemonName);
+      this.pokemonName = "";
+    },
+  },
+  watch: {
+    searchPokemon() {
+      console.log("mudou");
     },
   },
 };

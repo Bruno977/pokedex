@@ -7,3 +7,13 @@ export const api = {
     return instance.get(endpoint);
   },
 };
+export const pokemonsStyle = {
+  grass: {
+    background: "grass",
+    img: "grass img",
+  },
+  fire: {
+    background: "fire",
+    img: "fire img",
+  },
+};

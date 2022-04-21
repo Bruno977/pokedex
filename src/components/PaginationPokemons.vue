@@ -13,12 +13,7 @@
 <script>
 export default {
   name: "PaginationPokemons",
-  props: [
-    "totalPokemons",
-    "offsetAndLimit",
-    "showPagination",
-    "showAllPokemons",
-  ],
+  props: ["totalPokemons", "offsetAndLimit", "showPagination"],
   data() {
     return {
       limit: 9,

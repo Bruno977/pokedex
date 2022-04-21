@@ -2,10 +2,9 @@
   <div v-if="totalPokemons" class="container md-pd">
     <div class="grid columns gap2">
       <div class="span-4">
-        <SidebarTypes
-          :type.sync="type"
-          :showAllPokemons.sync="showAllPokemons"
-        />
+        <SidebarTypes :type.sync="type"
+          ><li @click="showAllPokemonsSide">All</li></SidebarTypes
+        >
       </div>
       <div class="span-8 grid columns gap2 grid-pokemons">
         <div class="span-12 grid columns gap2">
@@ -21,37 +20,19 @@
             <SearchPokemon :pokemonSearch.sync="pokemonSearch" />
           </div>
         </div>
-        <!-- <div v-if="pokemons" class="span-12"> -->
         <div class="span-12">
-          <!-- <div v-for="pokemon in pokemons" :key="pokemon.name" class="span-4"> -->
           <ResultPokemons
             :listPokemons="listPokemons"
             :listTypePokemons="listTypePokemons"
             :resultPokemonSearch="resultPokemonSearch"
             :showAllPokemons="showAllPokemons"
           />
-          <!-- </div> -->
         </div>
-        <!-- <div class="grid columns gap2">
-          <div class="span-4 card-pokemon">
-            <img
-              :src="`${pokemons.sprites.other.dream_world.front_default}`"
-              :alt="`pokemon`"
-              class="pokemon-img"
-            />
-            <div class="pokemon-id">{{ pokemons.id }}</div>
-            <div>{{ pokemons.name }}</div>
-            <div>{{ pokemons.types[0].type.name }}</div>
-          </div>
-        </div> -->
-        <!-- <div v-else>Nenhum pokemon encontrado</div> -->
-        <!-- </div> -->
         <div class="span-12" v-if="showPagination">
           <PaginationPokemons
             :totalPokemons="totalPokemons"
             :offsetAndLimit.sync="offsetAndLimit"
             :showPagination.sync="showPagination"
-            :showAllPokemons="showAllPokemons"
           />
         </div>
       </div>
@@ -65,7 +46,6 @@ import SidebarTypes from "@/components/SidebarTypes.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import PaginationPokemons from "@/components/PaginationPokemons.vue";
 import ResultPokemons from "@/components/ResultPokemons.vue";
-// import ListPokemonSearch from "@/components/ListPokemonSearch.vue";
 export default {
   name: "HomeView",
   components: {
@@ -73,7 +53,6 @@ export default {
     SearchPokemon,
     PaginationPokemons,
     ResultPokemons,
-    // ListPokemonSearch,
   },
   data() {
     return {
@@ -87,9 +66,8 @@ export default {
       listTypePokemons: null,
       resultPokemonSearch: null,
 
-      showPagination: true,
       showAllPokemons: false,
-      pokemonTypeChange: false,
+      showPagination: true,
     };
   },
 
@@ -106,49 +84,55 @@ export default {
       }
     },
     async getTotalPokemons() {
+      this.showAllPokemons = false;
       const response = await api.get("/pokemon");
       this.totalPokemons = response.data;
     },
     async searchPokemon() {
-      // this.pokemons = [];
-      const response = await api.get(`/pokemon/${this.pokemonSearch}`);
-      this.resultPokemonSearch = response.data;
-
-      // console.log(this.pokemons);
-      // this.showAllPokemons = false
+      this.showAllPokemons = false;
+      if (this.pokemonSearch !== "") {
+        const response = await api.get(`/pokemon/${this.pokemonSearch}`);
+        this.resultPokemonSearch = response.data;
+      }
+      this.pokemonSearch = "";
     },
     async getPokemonsType() {
-      const response = await api.get(`/type/${this.type.trim()}`);
-      this.listTypePokemons = response.data.pokemon;
-      // console.log("home" + this.pokemons);
-      // this.listTypePokemons = response.data.pokemon;
-      // console.log(this.pokemons);
-      // this.showAllPokemons = false;
+      this.showAllPokemons = false;
+      this.showAllPokemonsActive = false;
+
+      if (this.type !== "") {
+        const response = await api.get(`/type/${this.type.trim()}`);
+        this.listTypePokemons = response.data.pokemon;
+      }
+      this.type = "";
+    },
+    showAllPokemonsSide() {
+      this.showAllPokemons = true;
     },
   },
   watch: {
     pokemonSearch() {
       this.searchPokemon();
-      // this.showPagination = false;
       // console.log(this.pokemonSearch);
-      this.showAllPokemons = false;
+      // this.showAllPokemons = false;
+      this.showPagination = false;
     },
     type() {
       this.getPokemonsType();
-      // this.showPagination = false;
-      this.showAllPokemons = false;
+      // this.type = "";
+      // console.log(this.type);
+      // this.showAllPokemons = false;
+      this.showPagination = false;
+    },
+    showAllPokemons() {
+      this.showPagination = true;
     },
     offsetAndLimit() {
       this.getPokemonsPerPagination();
     },
-    showAllPokemons() {
-      // console.log(this.showAllPokemons);
+    showPagination() {
+      console.log(this.showPagination);
     },
-    // pokemonsList() {
-    //   this.getTotalPokemons();
-    //   this.showPagination = true;
-    //   console.log("testesteste");
-    // },
   },
   created() {
     this.getTotalPokemons();

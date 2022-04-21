@@ -1,59 +1,25 @@
 <template>
   <div>
     <div v-if="pokemonsType">
-      <div class="card-pokemon">
-        <img
-          :src="`${
-            pokemonsType.sprites.other.dream_world.front_default
-              ? pokemonsType.sprites.other.dream_world.front_default
-              : ''
-          }`"
-          :alt="`pokemon`"
-          class="pokemon-img"
-        />
-        <div class="pokemon-id">{{ pokemonsType.id }}</div>
-        <div>{{ pokemonsType.name }}</div>
-        <div>{{ pokemonsType.types[0].type.name }}</div>
-      </div>
+      <ShowAllPokemons :pokemons="pokemons" />
     </div>
     <div v-if="searchPokemon">
-      <div class="card-pokemon search">
-        <img
-          :src="`${
-            searchPokemon.sprites.other.dream_world.front_default
-              ? searchPokemon.sprites.other.dream_world.front_default
-              : ''
-          }`"
-          :alt="`pokemon`"
-          class="pokemon-img"
-        />
-        <div class="pokemon-id">{{ searchPokemon.id }}</div>
-        <div>{{ searchPokemon.name }}</div>
-        <div>{{ searchPokemon.types[0].type.name }}</div>
-      </div>
+      <ShowAllPokemons :pokemons="pokemons" />
     </div>
     <div v-if="allPokemons">
-      <div class="card-pokemon">
-        <img
-          :src="`${
-            allPokemons.sprites.other.dream_world.front_default
-              ? allPokemons.sprites.other.dream_world.front_default
-              : ''
-          }`"
-          :alt="`pokemon`"
-          class="pokemon-img"
-        />
-        <div class="pokemon-id">{{ allPokemons.id }}</div>
-        <div>{{ allPokemons.name }}</div>
-        <div>{{ allPokemons.types[0].type.name }}</div>
-      </div>
+      <ShowAllPokemons :pokemons="pokemons" />
     </div>
   </div>
 </template>
 <script>
 import { api } from "@/services.js";
+import ShowAllPokemons from "@/components/ShowAllPokemons.vue";
+
 export default {
   name: "ListPokemons",
+  components: {
+    ShowAllPokemons,
+  },
   props: {
     listTypePokemons: {
       type: Object,
@@ -70,6 +36,8 @@ export default {
       pokemonsType: null,
       allPokemons: null,
       searchPokemon: null,
+      // getStyle: false,
+      pokemons: null,
     };
   },
   methods: {
@@ -79,6 +47,14 @@ export default {
       if (this.listTypePokemons) {
         const response = await api.get(`${this.listTypePokemons.pokemon.url}`);
         this.pokemonsType = response.data;
+        this.pokemons = {
+          img: this.pokemonsType.sprites.other.dream_world.front_default
+            ? this.pokemonsType.sprites.other.dream_world.front_default
+            : "",
+          id: this.pokemonsType.id,
+          name: this.pokemonsType.name,
+          type: this.pokemonsType.types[0].type.name,
+        };
       }
     },
     async getAllPokemons() {
@@ -87,13 +63,38 @@ export default {
       if (this.listPokemons) {
         const response = await api.get(`${this.listPokemons.url}`);
         this.allPokemons = response.data;
+        this.pokemons = {
+          img: this.allPokemons.sprites.other.dream_world.front_default
+            ? this.allPokemons.sprites.other.dream_world.front_default
+            : "",
+          id: this.allPokemons.id,
+          name: this.allPokemons.name,
+          type: this.allPokemons.types[0].type.name,
+        };
       }
     },
     getPokemonSearch() {
       this.pokemonsType = null;
       this.allPokemons = null;
       this.searchPokemon = this.resultPokemonSearch;
+      if (this.searchPokemon) {
+        this.pokemons = {
+          img: this.searchPokemon.sprites.other.dream_world.front_default
+            ? this.searchPokemon.sprites.other.dream_world.front_default
+            : "",
+          id: this.searchPokemon.id,
+          name: this.searchPokemon.name,
+          type: this.searchPokemon.types[0].type.name,
+        };
+      }
     },
+    // getPokemonsStyle() {
+    //   if (this.getStyle === false) {
+    //     this.getStyle = true;
+    //     console.log(this.getStyle);
+    //     console.log(pokemonsStyle);
+    //   }
+    // },
   },
   watch: {
     listPokemons() {
@@ -101,6 +102,7 @@ export default {
     },
     listTypePokemons() {
       this.getTypePokemons();
+      console.log("list");
     },
     resultPokemonSearch() {
       this.getPokemonSearch();
@@ -110,23 +112,8 @@ export default {
     this.getTypePokemons();
     this.getAllPokemons();
     this.getPokemonSearch();
+    // this.getPokemonsStyle();
   },
 };
 </script>
-<style>
-.card-pokemon {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: var(--all-transition);
-}
-.card-pokemon:hover {
-  box-shadow: var(--box-shadow);
-}
-.pokemon-img {
-  height: 150px;
-  display: block;
-  margin: 0 auto;
-}
-</style>
+<style></style>

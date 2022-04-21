@@ -1,7 +1,7 @@
 <template>
   <aside>
     <ul>
-      <li @click="showPokemons">All</li>
+      <slot></slot>
       <li v-for="type in types" :key="type.name" @click="getType">
         {{ type.name }}
       </li>
@@ -12,12 +12,11 @@
 import { api } from "@/services.js";
 export default {
   name: "SidebarTypes",
-  props: ["type", "showAllPokemons"],
+  props: ["type"],
   data() {
     return {
       typesPokemons: this.type,
       types: null,
-      allPokemons: this.showAllPokemons,
     };
   },
   methods: {
@@ -29,9 +28,10 @@ export default {
       this.typesPokemons = target.textContent;
       this.$emit("update:type", this.typesPokemons);
     },
-    showPokemons() {
-      this.allPokemons = true;
-      this.$emit("update:showAllPokemons", this.allPokemons);
+  },
+  watch: {
+    typesPokemons() {
+      console.log(this.typesPokemons);
     },
   },
   created() {
