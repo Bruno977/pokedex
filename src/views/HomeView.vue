@@ -2,9 +2,17 @@
   <div v-if="totalPokemons" class="container md-pd">
     <div class="grid columns gap2">
       <div class="span-4">
-        <SidebarTypes :type.sync="type">
-          <li @click="showAllPokemonsSide" class="flex ai-gc">
-            <img src="../assets/img/icon-all.svg" alt="All Pokemons" />
+        <SidebarTypes
+          :type.sync="type"
+          :showAllPokemons="showAllPokemons"
+          :allPokemonsisActive.sync="allPokemonsisActive"
+        >
+          <li
+            @click="showAllPokemonsSide"
+            class="all-pokemons flex ai-gc"
+            :class="{ active: allPokemonsisActive }"
+          >
+            <img src="../assets/img/icon-all.svg" alt="All Pokemons" class="" />
             <p class="ml-1">All</p>
           </li>
         </SidebarTypes>
@@ -71,6 +79,7 @@ export default {
 
       showAllPokemons: false,
       showPagination: true,
+      allPokemonsisActive: true,
       // showTypeSidebar: "",
     };
   },
@@ -115,6 +124,9 @@ export default {
     },
     showAllPokemonsSide() {
       this.showAllPokemons = true;
+      if (this.showAllPokemons) {
+        this.allPokemonsisActive = true;
+      }
     },
   },
   watch: {
@@ -149,5 +161,14 @@ export default {
 <style scoped>
 .grid-pokemons {
   grid-template-rows: 50px auto;
+}
+.all-pokemons img {
+  filter: grayscale(1.5);
+}
+.all-pokemons.active p {
+  color: #3f5db3;
+}
+.all-pokemons.active img {
+  filter: grayscale(0);
 }
 </style>
