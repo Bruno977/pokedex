@@ -28,10 +28,15 @@
 import { api } from "@/services.js";
 export default {
   name: "SidebarTypes",
-  props: ["type", "showTypeSidebar", "showAllPokemons", "allPokemonsisActive"],
+  props: [
+    "listTypePokemons",
+    "showAllPokemons",
+    "allPokemonsisActive",
+    "resultPokemonSearch",
+  ],
   data() {
     return {
-      typesPokemons: this.type,
+      typesPokemons: this.listTypePokemons,
       types: [],
       typesEmpty: [],
       allPokemonsActive: this.allPokemonsisActive,
@@ -53,9 +58,15 @@ export default {
         }
       });
     },
-    getType({ target, currentTarget }) {
-      this.typesPokemons = target.textContent;
-      this.$emit("update:type", this.typesPokemons);
+    async getType({ target, currentTarget }) {
+      try {
+        const response = await api.get(`/type/${target.textContent.trim()}`);
+        this.typesPokemons = response.data.pokemon;
+        this.$emit("update:listTypePokemons", this.typesPokemons);
+      } catch (error) {
+        console.log(error);
+        this.$emit("update:listTypePokemons", error);
+      }
 
       for (let i = 0; i < this.$refs.typeActive.length; i++) {
         this.$refs.typeActive[i].classList.remove("active");
@@ -74,7 +85,11 @@ export default {
   },
   watch: {
     typesPokemons() {},
-    showTypeSidebar() {},
+    resultPokemonSearch() {
+      for (let i = 0; i < this.$refs.typeActive.length; i++) {
+        this.$refs.typeActive[i].classList.remove("active");
+      }
+    },
     showAllPokemons() {
       if (this.showAllPokemons) {
         for (let i = 0; i < this.$refs.typeActive.length; i++) {

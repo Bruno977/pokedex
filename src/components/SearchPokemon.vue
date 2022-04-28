@@ -28,24 +28,37 @@
   </div>
 </template>
 <script>
+// import { api } from "@/services.js";
+
 export default {
   name: "SearchPokemon",
-  props: ["pokemonSearch"],
+  props: ["resultPokemonSearch"],
   data() {
     return {
-      pokemonName: this.pokemonSearch,
+      pokemonName: "",
+      resultPokemon: this.resultPokemonSearch,
     };
   },
   methods: {
-    searchPokemon() {
-      this.$emit("update:pokemonSearch", this.pokemonName);
+    async searchPokemon() {
+      // console.log(this.pokemonName);
+      this.resultPokemon = this.pokemonName;
+      this.$emit("update:resultPokemonSearch", this.resultPokemon);
+
+      // try {
+      //   const response = await api.get(`/pokemon/${this.pokemonName}`);
+      //   this.resultPokemon = response.data;
+      //   this.$emit("update:resultPokemonSearch", this.resultPokemon);
+      // } catch (error) {
+      //   this.$emit("update:resultPokemonSearch", this.resultPokemon);
+      // }
       this.pokemonName = "";
     },
   },
   watch: {
-    searchPokemon() {
-      console.log("mudou");
-    },
+    // searchPokemon() {
+    //   console.log("mudou");
+    // },
   },
 };
 </script>

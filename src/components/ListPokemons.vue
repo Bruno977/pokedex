@@ -1,119 +1,67 @@
 <template>
-  <div>
-    <div v-if="pokemonsType">
-      <ShowAllPokemons :pokemons="pokemons" />
+  <div class="card-pokemon">
+    <div class="container-img-pokemon">
+      <img :src="`${pokemons.img}`" :alt="`pokemon`" class="pokemon-img" />
+      <div :class="`background-pokemon ${pokemons.type}`"></div>
     </div>
-    <div v-if="searchPokemon">
-      <ShowAllPokemons :pokemons="pokemons" />
-    </div>
-    <div v-if="allPokemons">
-      <ShowAllPokemons :pokemons="pokemons" />
+    <div class="pokemon-id">#{{ pokemons.id }}</div>
+    <div class="flex ai-gc jc-sb">
+      <div class="pokemon-name">{{ pokemons.name }}</div>
+      <img :src="require(`@/assets/img/${pokemons.type}.svg`)" alt="" />
     </div>
   </div>
 </template>
 <script>
-import { api } from "@/services.js";
-import ShowAllPokemons from "@/components/ShowAllPokemons.vue";
-
 export default {
-  name: "ListPokemons",
-  components: {
-    ShowAllPokemons,
-  },
-  props: {
-    listTypePokemons: {
-      type: Object,
-    },
-    resultPokemonSearch: {
-      type: Object,
-    },
-    listPokemons: {
-      type: Object,
-    },
-  },
-  data() {
-    return {
-      pokemonsType: null,
-      allPokemons: null,
-      searchPokemon: null,
-      // getStyle: false,
-      pokemons: null,
-    };
-  },
-  methods: {
-    async getTypePokemons() {
-      this.allPokemons = null;
-      this.searchPokemon = null;
-      if (this.listTypePokemons) {
-        const response = await api.get(`${this.listTypePokemons.pokemon.url}`);
-        this.pokemonsType = response.data;
-        this.pokemons = {
-          img: this.pokemonsType.sprites.other.dream_world.front_default
-            ? this.pokemonsType.sprites.other.dream_world.front_default
-            : "",
-          id: this.pokemonsType.id,
-          name: this.pokemonsType.name,
-          type: this.pokemonsType.types[0].type.name,
-        };
-      }
-    },
-    async getAllPokemons() {
-      this.pokemonsType = null;
-      this.searchPokemon = null;
-      if (this.listPokemons) {
-        const response = await api.get(`${this.listPokemons.url}`);
-        this.allPokemons = response.data;
-        this.pokemons = {
-          img: this.allPokemons.sprites.other.dream_world.front_default
-            ? this.allPokemons.sprites.other.dream_world.front_default
-            : "",
-          id: this.allPokemons.id,
-          name: this.allPokemons.name,
-          type: this.allPokemons.types[0].type.name,
-        };
-      }
-    },
-    getPokemonSearch() {
-      this.pokemonsType = null;
-      this.allPokemons = null;
-      this.searchPokemon = this.resultPokemonSearch;
-      if (this.searchPokemon) {
-        this.pokemons = {
-          img: this.searchPokemon.sprites.other.dream_world.front_default
-            ? this.searchPokemon.sprites.other.dream_world.front_default
-            : "",
-          id: this.searchPokemon.id,
-          name: this.searchPokemon.name,
-          type: this.searchPokemon.types[0].type.name,
-        };
-      }
-    },
-    // getPokemonsStyle() {
-    //   if (this.getStyle === false) {
-    //     this.getStyle = true;
-    //     console.log(this.getStyle);
-    //     console.log(pokemonsStyle);
-    //   }
-    // },
-  },
-  watch: {
-    listPokemons() {
-      this.getAllPokemons();
-    },
-    listTypePokemons() {
-      this.getTypePokemons();
-      // console.log("list");
-    },
-    resultPokemonSearch() {
-      this.getPokemonSearch();
-    },
-  },
-  created() {
-    this.getTypePokemons();
-    this.getAllPokemons();
-    this.getPokemonSearch();
-    // this.getPokemonsStyle();
-  },
+  props: ["pokemons"],
 };
 </script>
-<style></style>
+<style scoped>
+.card-pokemon {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--all-transition);
+}
+.card-pokemon:hover {
+  box-shadow: var(--box-shadow);
+}
+.pokemon-img {
+  height: 120px;
+  display: block;
+  margin: 0 auto;
+  /* margin-bottom: 10px; */
+}
+.container-img-pokemon {
+  position: relative;
+  /* z-index: 9999; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 0;
+}
+.container-img-pokemon img {
+  position: relative;
+  z-index: 10;
+}
+.background-pokemon {
+  position: absolute;
+  z-index: 1;
+  top: -13px;
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pokemon-id {
+  color: var(--light-text-color);
+  font-size: 0.8em;
+}
+.pokemon-name {
+  font-weight: bold;
+  color: var(--text-color);
+}
+</style>
