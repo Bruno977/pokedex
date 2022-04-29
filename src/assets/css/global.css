@@ -252,6 +252,9 @@ img {
 .mt-2 {
     margin-top: 1.25rem;
 }
+.mt-3 {
+    margin-top: 2.25rem;
+}
 
 .mr-1 {
     margin-right: 0.625rem;
@@ -267,6 +270,9 @@ img {
 
 .mb-2 {
     margin-bottom: 1.25rem;
+}
+.mb-3 {
+    margin-bottom: 2.25rem;
 }
 
 .ml-1 {
@@ -331,6 +337,10 @@ img {
 }
 /*Text*/
 /* **** Spacing **** */
+
+.relative {
+    position: relative;
+}
 
 /*Flex*/
 .grass {

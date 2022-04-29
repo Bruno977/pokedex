@@ -1,19 +1,45 @@
 <template>
-  <div class="card-pokemon">
-    <div class="container-img-pokemon">
-      <img :src="`${pokemons.img}`" :alt="`pokemon`" class="pokemon-img" />
-      <div :class="`background-pokemon ${pokemons.type}`"></div>
+  <div>
+    <div class="card-pokemon" @click="targetPokemon">
+      <div class="container-img-pokemon">
+        <img :src="`${pokemons.img}`" :alt="`pokemon`" class="pokemon-img" />
+        <div :class="`background-pokemon ${pokemons.type}`"></div>
+      </div>
+      <div class="pokemon-id">#{{ pokemons.id }}</div>
+      <div class="flex ai-gc jc-sb">
+        <div class="pokemon-name">{{ pokemons.name }}</div>
+        <img :src="require(`@/assets/img/${pokemons.type}.svg`)" alt="" />
+      </div>
     </div>
-    <div class="pokemon-id">#{{ pokemons.id }}</div>
-    <div class="flex ai-gc jc-sb">
-      <div class="pokemon-name">{{ pokemons.name }}</div>
-      <img :src="require(`@/assets/img/${pokemons.type}.svg`)" alt="" />
-    </div>
+    <ModalPokemon
+      v-if="isActive"
+      :isActive.sync="isActive"
+      :pokemon="pokemons.id"
+    />
   </div>
 </template>
 <script>
+import ModalPokemon from "@/components/ModalPokemon.vue";
 export default {
   props: ["pokemons"],
+  components: {
+    ModalPokemon,
+  },
+  data() {
+    return {
+      isActive: false,
+    };
+  },
+  methods: {
+    targetPokemon() {
+      this.isActive = true;
+    },
+  },
+  watch: {
+    isActive() {
+      console.log(this.isActive);
+    },
+  },
 };
 </script>
 <style scoped>
