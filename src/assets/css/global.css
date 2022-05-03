@@ -323,7 +323,7 @@ img {
 
 /*Text*/
 .text-sm {
-    font-size: 0.825rem;
+    font-size: 0.875rem;
 }
 .text-md {
     font-size: 1.25rem;
@@ -396,4 +396,90 @@ img {
 }
 .fairy {
     background-color: rgba(221, 138, 220, 0.2);
+}
+.grass-color {
+    color: var(--grass-color);
+}
+.poison-color {
+    color: var(--poison-color);
+}
+.water-color {
+    color: var(--water-color);
+}
+.fire-color {
+    color: var(--fire-color);
+}
+.psychic-color {
+    color: var(--psychic-color);
+}
+.flying-color {
+    color: var(--flying-color);
+}
+.ice-color {
+    color: var(--ice-color);
+}
+.ground-color {
+    color: var(--ground-color);
+}
+.rock-color {
+    color: var(--rock-color);
+}
+.eletric-color {
+    color: var(--eletric-color);
+}
+.bug-color {
+    color: var(--bug-color);
+}
+.dark-color {
+    color: var(--dark-color);
+}
+.dragon-color {
+    color: var(--dragon-color);
+}
+.fairy-color {
+    color: var(--fairy-color);
+}
+.fighting-color {
+    color: var(--fighting-color);
+}
+.ghost-color {
+    color: var(--ghost-color);
+}
+.steel-color {
+    color: var(--steel-color);
+}
+.normal-color {
+    color: var(--normal-color);
+}
+
+.bar-status {
+    position: relative;
+    width: 100%;
+    max-width: 28.3rem;
+    height: 3px;
+    background-color: #eff3f6;
+    overflow: hidden;
+}
+.bar-status .bar {
+    width: 88%;
+    height: 100%;
+    background-color: #c20001;
+}
+.bar-status .separator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* width: 100%; */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bar-status .separator li {
+    width: 4px;
+    height: 4px;
+    background-color: #ffffff;
+}
+.bar-status .separator li:not(:first-child) {
+    margin-left: 5.4rem;
 }

@@ -47,7 +47,7 @@
                 </p>
               </div>
             </div>
-            <div class="flex ai-gc jc-sb mt-3 mb-3">
+            <div class="flex ai-gc jc-sb mt-2 mb-2">
               <div class="height">
                 <p>Height</p>
                 <p>
@@ -63,10 +63,50 @@
               <div class="abilities">
                 <p>Abilities</p>
                 <p>
-                  {{ pokemonDetails.weight }}
+                  {{ pokemonDetails.abilities }}
                 </p>
               </div>
             </div>
+            <div class="weaknesses">
+              <h4>Weaknesses</h4>
+              <ul class="flex ai-gc">
+                <li
+                  v-for="weaknesse in weaknesses"
+                  :key="weaknesse.name"
+                  :class="`${weaknesse.name}-color ${weaknesse.name}`"
+                >
+                  {{ weaknesse.name }}
+                </li>
+              </ul>
+            </div>
+            <div class="stats mt-2">
+              <h4>Stats</h4>
+              <ul>
+                <li v-for="stats in pokemonDetails.stats" :key="stats.name">
+                  <div class="flex ai-gc jc-sb container-progress">
+                    <span class="stats-title">{{ stats.stat.name }}</span>
+                    <div class="bar-status">
+                      <div
+                        class="bar"
+                        :class="`${stats.base_stat}%`"
+                        :style="`width: ${stats.base_stat}%`"
+                      ></div>
+                      <ul class="separator">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <router-link
+              :to="{ name: 'pokemon', params: { id: pokemonDetails.id } }"
+            >
+              See more
+            </router-link>
           </div>
         </div>
       </div>
@@ -83,6 +123,7 @@ export default {
     return {
       pokemonDetails: null,
       modalActive: this.isActive,
+      weaknesses: null,
     };
   },
   methods: {
@@ -99,13 +140,22 @@ export default {
           type: response.data.types,
           height: response.data.height,
           weight: response.data.weight,
-          abilities: response.data.abilities,
+          urlTypes: response.data.types[0].type.url,
+
+          abilities: response.data.abilities[0].ability.name,
           stats: response.data.stats,
         };
-        // console.log(response.data);
-        // console.log(this.pokemonDetails);
+        this.getWeaknesses();
+        console.log(this.pokemonDetails.stats);
+        console.log();
       } catch (error) {
         console.log(error);
+      }
+    },
+    async getWeaknesses() {
+      if (this.pokemonDetails.urlTypes) {
+        const response = await api.get(`${this.pokemonDetails.urlTypes}`);
+        this.weaknesses = response.data.damage_relations.double_damage_from;
       }
     },
     closeModal() {
@@ -209,7 +259,7 @@ export default {
   font-size: 0.8em;
 }
 .type-item + .type-item {
-  margin-left: 0.3rem;
+  margin-left: 10px;
 }
 .height p:first-of-type,
 .weight p:first-of-type,
@@ -222,8 +272,41 @@ export default {
 .abilities p:last-of-type {
   color: var(--text-color);
   font-size: 0.875em;
+  font-weight: bold;
 }
-
+.weaknesses h4,
+.stats h4 {
+  font-size: 0.875em;
+  color: var(--text-color);
+}
+.stats h4 {
+  margin-bottom: 10px;
+}
+.weaknesses ul {
+  margin-top: 10px;
+}
+.weaknesses ul li {
+  padding: 4px 8px;
+  font-size: 0.875em;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.weaknesses ul li + li {
+  margin-left: 10px;
+}
+.stats .container-progress {
+  margin-bottom: 5px;
+}
+.container-progress span {
+  font-size: 0.75em;
+  color: var(--light-text-color);
+  flex: 1 1 180px;
+  /* width: 6.8rem;
+  display: block; */
+}
+/* .stats-title {
+  color: var(--light-text-color);
+} */
 .bg-normal {
   background: url("../assets/img/bg-normal.svg") center center no-repeat;
 }
