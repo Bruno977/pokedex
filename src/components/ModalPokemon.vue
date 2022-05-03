@@ -1,116 +1,122 @@
 <template>
-  <div v-if="pokemonDetails">
+  <div>
     <div class="overflow"></div>
-    <div class="modal">
-      <div class="modal-content">
-        <img
-          src="../assets/img/close.svg"
-          alt="Close Modal"
-          class="close-modal"
-          @click="closeModal"
-        />
-        <div class="grid columns gap2 jc-sb container-grid">
-          <div class="span-3">
-            <div
-              :class="` relative bg-${pokemonDetails.type[0].type.name} container-image`"
-            >
-              <div class="pokemon-icon">
-                <img
-                  :src="
-                    require(`../assets/img/${pokemonDetails.type[0].type.name}.svg`)
-                  "
-                  :alt="pokemonDetails.type[0].type.name"
-                />
-              </div>
-              <div class="pokemon-image">
-                <img :src="pokemonDetails.img" :alt="pokemonDetails.name" />
-              </div>
-            </div>
-          </div>
-          <div class="span-9 container-content">
-            <div class="flex ai-gc">
-              <div class="pokemon-name">{{ pokemonDetails.name }}</div>
-              <div class="pokemon-id">#{{ pokemonDetails.id }}</div>
-            </div>
-            <div class="flex ai-gc">
+    <transition>
+      <div class="modal" v-if="pokemonDetails">
+        <div key="pokemon" class="modal-content">
+          <img
+            src="../assets/img/close.svg"
+            alt="Close Modal"
+            class="close-modal"
+            @click="closeModal"
+          />
+          <div class="grid columns gap2 jc-sb container-grid">
+            <div class="span-3">
               <div
-                v-for="type in pokemonDetails.type"
-                :key="type.type.name"
-                class="type-item"
+                :class="` relative bg-${pokemonDetails.type[0].type.name} container-image`"
               >
-                <p
-                  class="type-name"
-                  :class="type.type.name"
-                  :style="`color: var(--${type.type.name}-color)`"
+                <div class="pokemon-icon">
+                  <img
+                    :src="
+                      require(`../assets/img/${pokemonDetails.type[0].type.name}.svg`)
+                    "
+                    :alt="pokemonDetails.type[0].type.name"
+                  />
+                </div>
+                <div class="pokemon-image">
+                  <img :src="pokemonDetails.img" :alt="pokemonDetails.name" />
+                </div>
+              </div>
+            </div>
+            <div class="span-9 container-content">
+              <div class="flex ai-gc">
+                <div class="pokemon-name">{{ pokemonDetails.name }}</div>
+                <div class="pokemon-id">#{{ pokemonDetails.id }}</div>
+              </div>
+              <div class="flex ai-gc">
+                <div
+                  v-for="type in pokemonDetails.type"
+                  :key="type.type.name"
+                  class="type-item"
                 >
-                  {{ type.type.name }}
-                </p>
+                  <p
+                    class="type-name"
+                    :class="type.type.name"
+                    :style="`color: var(--${type.type.name}-color)`"
+                  >
+                    {{ type.type.name }}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class="flex ai-gc jc-sb mt-2 mb-2">
-              <div class="height">
-                <p>Height</p>
-                <p>
-                  {{ pokemonDetails.height }}
-                </p>
+              <div class="flex ai-gc jc-sb mt-2 mb-2">
+                <div class="height">
+                  <p>Height</p>
+                  <p>
+                    {{ pokemonDetails.height }}
+                  </p>
+                </div>
+                <div class="weight">
+                  <p>Weight</p>
+                  <p>
+                    {{ pokemonDetails.weight }}
+                  </p>
+                </div>
+                <div class="abilities">
+                  <p>Abilities</p>
+                  <p>
+                    {{ pokemonDetails.abilities }}
+                  </p>
+                </div>
               </div>
-              <div class="weight">
-                <p>Weight</p>
-                <p>
-                  {{ pokemonDetails.weight }}
-                </p>
+              <div class="weaknesses">
+                <h4>Weaknesses</h4>
+                <ul class="flex ai-gc">
+                  <li
+                    v-for="weaknesse in weaknesses"
+                    :key="weaknesse.name"
+                    :class="`${weaknesse.name}-color ${weaknesse.name}`"
+                  >
+                    {{ weaknesse.name }}
+                  </li>
+                </ul>
               </div>
-              <div class="abilities">
-                <p>Abilities</p>
-                <p>
-                  {{ pokemonDetails.abilities }}
-                </p>
-              </div>
-            </div>
-            <div class="weaknesses">
-              <h4>Weaknesses</h4>
-              <ul class="flex ai-gc">
-                <li
-                  v-for="weaknesse in weaknesses"
-                  :key="weaknesse.name"
-                  :class="`${weaknesse.name}-color ${weaknesse.name}`"
-                >
-                  {{ weaknesse.name }}
-                </li>
-              </ul>
-            </div>
-            <div class="stats mt-2">
-              <h4>Stats</h4>
-              <ul>
-                <li v-for="stats in pokemonDetails.stats" :key="stats.name">
-                  <div class="flex ai-gc jc-sb container-progress">
-                    <span class="stats-title">{{ stats.stat.name }}</span>
-                    <div class="bar-status">
-                      <div
-                        class="bar"
-                        :class="`${stats.base_stat}%`"
-                        :style="`width: ${stats.base_stat}%`"
-                      ></div>
-                      <ul class="separator">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                      </ul>
+              <div class="stats mt-2">
+                <h4>Stats</h4>
+                <ul>
+                  <li v-for="stats in pokemonDetails.stats" :key="stats.name">
+                    <div class="flex ai-gc jc-sb container-progress">
+                      <span class="stats-title">{{ stats.stat.name }}</span>
+                      <div class="bar-status">
+                        <div
+                          class="bar"
+                          :class="`${stats.base_stat}%`"
+                          :style="`width: ${stats.base_stat}%`"
+                        ></div>
+                        <ul class="separator">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
+              <router-link
+                :to="{ name: 'pokemon', params: { id: pokemonDetails.id } }"
+                class="see-more"
+              >
+                See more
+              </router-link>
             </div>
-            <router-link
-              :to="{ name: 'pokemon', params: { id: pokemonDetails.id } }"
-            >
-              See more
-            </router-link>
           </div>
         </div>
       </div>
-    </div>
+      <div v-else key="loading" class="loading">
+        <LoadingPage :background="background" />
+      </div>
+    </transition>
   </div>
 </template>
 <script>
@@ -124,6 +130,7 @@ export default {
       pokemonDetails: null,
       modalActive: this.isActive,
       weaknesses: null,
+      background: "loading-modal",
     };
   },
   methods: {
@@ -146,8 +153,6 @@ export default {
           stats: response.data.stats,
         };
         this.getWeaknesses();
-        console.log(this.pokemonDetails.stats);
-        console.log();
       } catch (error) {
         console.log(error);
       }
@@ -160,7 +165,6 @@ export default {
     },
     closeModal() {
       this.modalActive = false;
-      //   console.log(this.modalActive);
       this.$emit("update:isActive", this.modalActive);
     },
   },
@@ -301,12 +305,31 @@ export default {
   font-size: 0.75em;
   color: var(--light-text-color);
   flex: 1 1 180px;
-  /* width: 6.8rem;
-  display: block; */
 }
-/* .stats-title {
-  color: var(--light-text-color);
-} */
+.see-more {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: rgba(63, 93, 179, 0.1);
+  color: #3f5db3;
+  padding: 5px 8px;
+  border-radius: 5px;
+  transition: var(--all-transition);
+}
+.see-more:hover {
+  background-color: #3f5db3;
+  color: #fff;
+}
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .bg-normal {
   background: url("../assets/img/bg-normal.svg") center center no-repeat;
 }

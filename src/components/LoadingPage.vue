@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loading" :class="background">
     <span></span>
     <span></span>
     <span></span>
@@ -10,6 +10,7 @@
 <script>
 export default {
   name: "LoadingPage",
+  props: ["background"],
 };
 </script>
 
@@ -26,6 +27,9 @@ export default {
   background: #3f5db3;
   margin: 4px;
   animation: dots 0.6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
+}
+.loading-modal span {
+  background: #fff;
 }
 .loading span:nth-child(1) {
   animation-delay: 0.1s;
