@@ -2,7 +2,7 @@
   <div>
     <div class="overflow"></div>
     <transition>
-      <div class="modal" v-if="pokemonDetails">
+      <div class="modal" v-if="pokemonDetails" @click="clickOutside">
         <div key="pokemon" class="modal-content">
           <img
             src="../assets/img/close.svg"
@@ -166,6 +166,12 @@ export default {
     closeModal() {
       this.modalActive = false;
       this.$emit("update:isActive", this.modalActive);
+    },
+    clickOutside({ target, currentTarget }) {
+      if (target === currentTarget) {
+        this.modalActive = false;
+        this.$emit("update:isActive", this.modalActive);
+      }
     },
   },
   created() {
